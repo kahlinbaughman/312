@@ -1,0 +1,56 @@
+9210+C123
+    9210h
++   C123h
+---------
+   15333h
+1.
+The carry bit is set
+2.
+The overflow  bit is set, this is because the biggest value two bytes in hex can
+hold is FFFF, 15333 > FFFF and thus overflows
+3.
+5h in binary is 0101 so 5333h is positive and a movsx would result in a 00005333h
+which print_int prints as 21299d
+
+2100+7033
+    2100h
++   7033h
+---------
+    9133h
+1.
+The carry bit is not set
+2.
+The overflow  bit is set because 2100h starts with a 0 bit, and 7033 starts with
+a 0 bit. Because both are positive the sum should also be positive but the sum starts
+with a 1 and is negative so overflow
+3.
+9h in binary is 1001 so 15333h is negative and a movsx would result in a FFFF9133h
+which print_int prints as -28365
+
+B5+25
+    B5h
++   25h
+---------
+    DAh
+1.
+The carry bit is not set
+2.
+The overflow  bit is not set, this is because a negtive + a positive never overflows.
+B starts with a 1 which is a negative, and 2 starts with a 0 and is postive
+3.
+Dh in binary is 1101 so DAh is negative and a movsx would result in a FFFFFFDAh
+which print_int prints as -38
+
+E1+D4
+    E1h
++   D4h
+---------
+   1B5h
+1.
+The carry bit is set
+2.
+The overflow  bit is not set, this is because a negtive + negtive never overflows.
+B is negative and thus there is not an overflow
+3.
+Bh in binary is 1101 so B5h is negative and a movsx would result in a FFFFFFB5h
+which print_int prints as -75
