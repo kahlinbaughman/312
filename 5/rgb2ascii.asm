@@ -1,26 +1,26 @@
 %include "asm_io.inc"
 
 segment .data
-	r0 db 0
-	r84 db 84
+	r0 dd 0
+	r84 dd 84
 	; Above is taken care of
-	r85 db 85
-	r169 db 169
-	r170 db 170
-	r254 db 254
-	r255 db 255
-	r339 dw 339
-	r340 dw 340
-	r424 dw 424
-	r425 dw 425
-	r509 dw 509
-	r510 dw 510
-	r594 dw 594
-	r595 dw 595
-	r679 dw 679
+	r85 dd 85
+	r169 dd 169
+	r170 dd 170
+	r254 dd 254
+	r255 dd 255
+	r339 dd 339
+	r340 dd 340
+	r424 dd 424
+	r425 dd 425
+	r509 dd 509
+	r510 dd 510
+	r594 dd 594
+	r595 dd 595
+	r679 dd 679
 	; Below is taken care of
- 	r680 dw 680
-	r765 dw 765
+ 	r680 dd 680
+	r765 dd 765
 
 	period db "."
 	backtick db "`"
@@ -60,35 +60,33 @@ width_loop:
 	call read_int ; Get next int
 	add ebx, eax ; Add the next int into previous
 	
-	mov eax, [r0]
-	dump_mem 1, r0, 4
+	mov eax, [r680]
 	cmp eax, ebx ; Compare 680 and ebx
-	dump_regs 1
-	jle its_W 	; If ebx >= 680 its W
+	jbe its_W 	; If ebx >= 680 its W
 
 	cmp [r84], ebx	; Compare 84 and ebx
-	jge its_period	; If ebx <= 84 its period
+	jae its_period	; If ebx <= 84 its period
 
 	cmp [r169], ebx
-	;jae its_backtick
+	jae its_backtick
 
-;	cmp [r254], ebx
-;	jae its_comma
+	cmp [r254], ebx
+	jae its_comma
 
-;	cmp [r339], ebx
-;	jae its_colon
+	cmp [r339], ebx
+	jae its_colon
 
-;	cmp [r424], ebx
-;	jae its_i
+	cmp [r424], ebx
+	jae its_i
 
-;	cmp [r509], ebx
-;	jae its_l
+	cmp [r509], ebx
+	jae its_l
 
-;	cmp [r594], ebx
-;	jae its_w
+	cmp [r594], ebx
+	jae its_w
 
-;	cmp [r679], ebx
-;	jae its_X
+	cmp [r679], ebx
+	jae its_X
 
 its_period:
 	mov eax, [period]
@@ -96,7 +94,7 @@ its_period:
 	call print_char
 	jmp end
 
-its_W:
+its_backtick:
 	mov eax, [backtick]
 	call print_char
 	call print_char
@@ -136,10 +134,10 @@ its_X:
 	call print_char
 	call print_char
 	jmp end
-;its_W:
-;	mov eax, [W]
-;	call print_char
-;	call print_char
+its_W:
+	mov eax, [W]
+	call print_char
+	call print_char
 
 end:
 	mov eax, 0
@@ -155,7 +153,6 @@ end:
 	cmp edx, eax
 	jne height_loop
 
-	dump_regs 1
 	
 
 	popa
