@@ -1,5 +1,5 @@
 PROGRAM1=rgb2ascii
-PROGRAM2=
+PROGRAM2=rgb2lumhist1
 CC=gcc
 CFLAGS=-m32
 ASM=nasm
