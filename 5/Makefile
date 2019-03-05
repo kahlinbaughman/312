@@ -1,5 +1,6 @@
 PROGRAM1=rgb2ascii
 PROGRAM2=rgb2lumhist1
+PROGRAM3=rgb2lumhist2
 CC=gcc
 CFLAGS=-m32
 ASM=nasm
@@ -10,7 +11,7 @@ default: compile
 run: $(PROGRAM)
 	@./$(PROGRAM)
 
-compile: $(PROGRAM1) $(PROGRAM2)
+compile: $(PROGRAM1) $(PROGRAM2) $(PROGRAM3)
 
 $(PROGRAM1): $(PROGRAM1).o driver.o asm_io.o
 	$(CC) $(CFLAGS) $(PROGRAM1).o driver.o asm_io.o -o $(PROGRAM1)
@@ -23,6 +24,12 @@ $(PROGRAM2): $(PROGRAM2).o driver.o asm_io.o
 
 $(PROGRAM2).o: $(PROGRAM2).asm
 	$(ASM) $(ASMFLAGS) $(PROGRAM2).asm -o $(PROGRAM2).o
+
+$(PROGRAM3): $(PROGRAM3).o driver.o asm_io.o
+	$(CC) $(CFLAGS) $(PROGRAM3).o driver.o asm_io.o -o $(PROGRAM3)
+
+$(PROGRAM3).o: $(PROGRAM3).asm
+	$(ASM) $(ASMFLAGS) $(PROGRAM3).asm -o $(PROGRAM3).o
 
 asm_io.o: asm_io.asm
 	$(ASM) $(ASMFLAGS) -d ELF_TYPE asm_io.asm -o asm_io.o
