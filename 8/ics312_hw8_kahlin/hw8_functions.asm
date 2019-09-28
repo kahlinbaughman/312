@@ -122,12 +122,73 @@ neg_one:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 findAllIndices:
-	enter	0, 0
+	enter	8, 0
 
-	mov	eax, findAllIndices_not_implemented
-	call	print_string
-	call	print_nl
-	mov	eax, -42
+	mov ebx, 0 ; array counter
+	mov edx, 0 ; # of 1s returned by fun
+loop_through_two:
+	mov ecx, [ebp+8]
+	add ecx, ebx
+	movzx eax, byte [ecx]
+	
+	push eax
+	call [ebp+16]
+	add esp, 4	
+	
+	cmp eax, 1
+	jne skip_inc
+	inc edx
+
+skip_inc:
+
+	inc ebx
+	cmp ebx, [ebp+12]
+	je finish_loop_through_two
+	mov ecx, [ebp+8]
+	jmp loop_through_two
+
+finish_loop_through_two:
+	
+	mov eax, [ebp+20]
+	mov [eax], edx
+
+
+	shl edx, 2
+	push edx
+	call allocate_memory
+	add esp, 4
+	mov [ebp-8], eax
+
+	mov ebx, 0
+loop_through_three:
+	mov ecx, [ebp+8]
+	add ecx, ebx
+	movzx eax, byte [ecx]
+	
+	push eax
+	call [ebp+16]
+	add esp, 4	
+	
+	cmp eax, 1
+	jne skip_write
+	mov eax, [ebp-8]
+	mov esi, ebx
+	shl esi, 2
+	add eax, esi
+	mov [eax], ebx
+	
+
+skip_write:
+
+	inc ebx
+	cmp ebx, [ebp+12]
+	je finish_loop_through_two
+	mov ecx, [ebp+8]
+	jmp loop_through_two
+
+finish_loop_through_three:
+
+	mov eax, [ebp-8]
 
 	leave
 	ret	
